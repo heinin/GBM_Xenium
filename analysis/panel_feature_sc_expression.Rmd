@@ -1,0 +1,160 @@
+---
+title: "Expression on Xenium base panel features in 13384 tumors"
+author: "heinin"
+date: "2024-02-07"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+### Packages and environment variables
+
+```{r}
+
+suppressPackageStartupMessages({
+  library(cli)
+  library(Seurat)
+  library(SeuratObject)
+  library(SeuratDisk)
+  library(tidyverse)
+  library(tibble)
+  library(ggplot2)
+  library(ggpubr)
+  library(ggrepel)
+  library(workflowr)
+  library(googlesheets4)
+  library(UpSetR)})
+
+setwd("/home/hnatri/ILD_ASE_Xenium/")
+set.seed(9999)
+options(ggrepel.max.overlaps = Inf)
+
+# Colors, themes, cell type markers, and plot functions
+source("/home/hnatri/GBM_Xenium/code/colors_themes.R")
+source("/home/hnatri/GBM_Xenium/code/plot_functions.R")
+source("/home/hnatri/GBM_Xenium/code/utilities.R")
+
+```
+
+### Panel features
+
+```{r}
+
+# https://docs.google.com/spreadsheets/d/14SQGru_Wj1AzzKhRb-ckivscl55xrr5Jw1hyjQim6zs/edit?usp=sharing
+gs4_deauth()
+panel_sheets  <- gs4_get("https://docs.google.com/spreadsheets/d/14SQGru_Wj1AzzKhRb-ckivscl55xrr5Jw1hyjQim6zs/edit?usp=sharing")
+sheet_names(panel_sheets)
+breast <- read_sheet(panel_sheets, sheet = "Breast cancer base panel")
+brain <- read_sheet(panel_sheets, sheet = "Brain base panel")
+multitissue_cancer <- read_sheet(panel_sheets, sheet = "Multi-tissue/Cancer base panel")
+gbm <- read_sheet(panel_sheets, sheet = "Berens lab GBM panel")
+custom <- read_sheet(panel_sheets, sheet = "Additional genes")
+
+panel_gene_list <- list("breast" = breast$Name,
+                        "brain" = brain$Gene,
+                        "multitissue_cancer" = multitissue_cancer$Gene,
+                        "gbm" = gbm$Name,
+                        "custom" = custom$Gene)
+
+panel_gene_list <- panel_gene_list[order(sapply(panel_gene_list, length))]
+
+```
+
+### Import data
+
+```{r}
+
+seurat_object <- readRDS("/tgen_labs/banovich/BCTCSF/Heini/tumor_integrated_UPN109pre_noUPN208_soupX_snn_metadata_no4_7.rds")
+DefaultAssay(seurat_object)
+
+# UMAP with cell type annotations
+DimPlot(seurat_object,
+        group.by = "celltype",
+        cols = tumor_celltype_col,
+        reduction = "integrated_sct_umap",
+        label = T,
+        label.box = T,
+        label.size = 3,
+        repel = T,
+        raster = T,
+        raster.dpi = c(1024, 1024),
+        pt.size = 3) +
+  ggtitle("") +
+  theme_classic() +
+  manuscript_theme + 
+  NoLegend() +
+  NoAxes() +
+  coord_fixed(1)
+
+# Pseudobulk expression (CPM) across cell types
+exp_data <- AggregateExpression(seurat_object,
+                                assay = "RNA",
+                                group.by = "celltype",
+                                normalization.method = "LogNormalize",
+                                scale.factor = 1e6)
+exp_data <- as.matrix(exp_data$RNA)
+
+# Porportion of cells expression and (scaled) average expression
+p <- DotPlot(object = seurat_object,
+             features = unique(unlist(panel_gene_list)),
+             group.by = "celltype")
+  
+# Extracting values
+df <- p$data
+
+# Removing NaN values
+if(nrow(df[which(is.nan(df$avg.exp.scaled)),])>0){
+  df <- df[-which(is.nan(df$avg.exp.scaled)),]
+}
+
+# Which panel features are present in our annotations?
+lapply(panel_gene_list, function(xx){
+  (length(intersect(rownames(exp_data), xx))/length(xx))*100
+})
+
+```
+
+### Overlap of panel features
+
+```{r}
+
+upset(fromList(panel_gene_list), order.by = "freq")
+
+```
+
+### Panel feature expression across cell types
+
+```{r}
+
+# A list of genes meeting the expression threshold
+exp_list <- lapply(unique(df$id), function(xx){
+  
+  df %>% filter(id == xx,
+                pct.exp > 0.05,
+                avg.exp > 1) %>%
+    dplyr::select(features.plot) %>%
+    unlist() %>% as.character()
+})
+names(exp_list) <- unique(df$id)
+
+exp_list <- exp_list[order(sapply(exp_list, length))]
+
+```
+
+### Panel features expressed in scRNAseq
+
+```{r, fig.height=10, fig.height=6, warning=F, message=F}
+
+bar_cols <- c(rep("deeppink3", length(panel_gene_list)),
+              rep("aquamarine3", length(exp_list)))
+names(bar_cols) <- c(names(panel_gene_list), names(exp_list))
+
+upset(fromList(c(panel_gene_list, exp_list)),
+      keep.order = TRUE,
+      sets = c(names(panel_gene_list), names(exp_list)),
+      order.by = "freq",
+      nsets = length(c(panel_gene_list, exp_list)),
+      sets.bar.color = bar_cols,
+      mb.ratio = c(0.4, 0.6))
+
+```
