@@ -58,6 +58,17 @@ panel_gene_list <- list("breast" = breast$Name,
 
 panel_gene_list <- panel_gene_list[order(sapply(panel_gene_list, length))]
 
+# Cell type annotations for genes in the brain panel
+brain$`Annotation (Xenium)` %>% table() %>%
+  as.data.frame() %>% 
+  dplyr::rename(celltype = ".") %>%
+  ggplot(aes(x = reorder(celltype, -Freq), y = Freq)) +
+    geom_bar(stat = "identity")+
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+    xlab("Cell type") +
+    ylab("# features")
+
 ```
 
 ### Import data
@@ -141,9 +152,15 @@ exp_list <- exp_list[order(sapply(exp_list, length))]
 
 ```
 
-### Panel features expressed in scRNAseq
+### Panel features expressed in scRNAseq with >5% of cells expressing, avg. exp >1
 
-```{r, fig.height=10, fig.height=6, warning=F, message=F}
+```{r, fig.width=10, fig.height=6, warning=F, message=F}
+
+upset(fromList(c(panel_gene_list, exp_list)),
+      keep.order = TRUE,
+      order.by = "freq",
+      nsets = length(c(panel_gene_list, exp_list)),
+      mb.ratio = c(0.4, 0.6))
 
 bar_cols <- c(rep("deeppink3", length(panel_gene_list)),
               rep("aquamarine3", length(exp_list)))
@@ -154,7 +171,100 @@ upset(fromList(c(panel_gene_list, exp_list)),
       sets = c(names(panel_gene_list), names(exp_list)),
       order.by = "freq",
       nsets = length(c(panel_gene_list, exp_list)),
+      nintersects = 60,
       sets.bar.color = bar_cols,
       mb.ratio = c(0.4, 0.6))
+
+```
+
+### Same with >1% expressing, avg. exp >1
+
+```{r}
+
+exp_list <- lapply(unique(df$id), function(xx){
+  
+  df %>% filter(id == xx,
+                pct.exp > 0.01,
+                avg.exp > 1) %>%
+    dplyr::select(features.plot) %>%
+    unlist() %>% as.character()
+})
+names(exp_list) <- unique(df$id)
+
+exp_list <- exp_list[order(sapply(exp_list, length))]
+
+```
+
+
+```{r, fig.width=10, fig.height=6, warning=F, message=F}
+
+bar_cols <- c(rep("deeppink3", length(panel_gene_list)),
+              rep("aquamarine3", length(exp_list)))
+names(bar_cols) <- c(names(panel_gene_list), names(exp_list))
+
+upset(fromList(c(panel_gene_list, exp_list)),
+      keep.order = TRUE,
+      sets = c(names(panel_gene_list), names(exp_list)),
+      order.by = "freq",
+      nsets = length(c(panel_gene_list, exp_list)),
+      nintersects = 50,
+      sets.bar.color = bar_cols,
+      mb.ratio = c(0.4, 0.6))
+
+```
+
+### Looking at genes in intersects
+
+#### Genes in the Barens lab GBM panel and expressed in any cell type
+
+```{r}
+# Intersect
+intersect(panel_gene_list[["gbm"]], unlist(exp_list))
+
+# Panel genes not expressed in scRNAseq
+setdiff(panel_gene_list[["gbm"]], unlist(exp_list))
+
+#gbm %>% filter(Name %in% setdiff(panel_gene_list[["gbm"]], unlist(exp_list)))
+
+# % out of the whole panel expressed in scRNAseq
+length(intersect(panel_gene_list[["gbm"]], unique(unlist(exp_list))))/length(panel_gene_list[["gbm"]])*100
+
+```
+
+#### Genes in the multi-tissue/cancer panel and expressed in any cell type
+
+```{r}
+# Intersect
+intersect(panel_gene_list[["multitissue_cancer"]], unlist(exp_list))
+
+# Panel genes not expressed in scRNAseq
+setdiff(panel_gene_list[["multitissue_cancer"]], unlist(exp_list))
+
+# Annotations for genes not expressed in scRNAseq
+multitissue_cancer %>% filter(!Gene %in% unlist(exp_list))
+  
+# % out of the whole panel expressed in scRNAseq
+length(intersect(panel_gene_list[["multitissue_cancer"]], unique(unlist(exp_list))))/length(panel_gene_list[["multitissue_cancer"]])*100
+
+```
+
+#### Genes in the brain panel and expressed in any cell type
+
+```{r}
+# Intersect
+intersect(panel_gene_list[["brain"]], unlist(exp_list))
+
+# Panel genes not expressed in scRNAseq
+setdiff(panel_gene_list[["brain"]], unlist(exp_list))
+
+# Annotations for genes not expressed in scRNAseq
+brain %>% filter(!Gene %in% unlist(exp_list)) %>%
+  select(`Annotation (Xenium)`) %>%
+  table() %>%
+  sort() %>%
+  as.data.frame()
+
+# % out of the whole panel expressed in scRNAseq
+length(intersect(panel_gene_list[["brain"]], unique(unlist(exp_list))))/length(panel_gene_list[["brain"]])*100
 
 ```

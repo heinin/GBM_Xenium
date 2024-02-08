@@ -421,10 +421,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -559,13 +559,15 @@ code/utilities.R
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong21c4ed5">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsheininghpLRgVwS7Z48swjRrQoBOAaVz2kQoFlP0cEwwugithubcomheininGBMXeniumtree2d87bed53324a0c13a704c52e73eb35dec2359ebtargetblank2d87beda">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 21c4ed5
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://heinin: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@github.com/heinin/GBM_Xenium/tree/2d87bed53324a0c13a704c52e73eb35dec2359eb" target="_blank">2d87bed</a>
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong21c4ed5"
+<div
+id="strongRepositoryversionstrongahrefhttpsheininghpLRgVwS7Z48swjRrQoBOAaVz2kQoFlP0cEwwugithubcomheininGBMXeniumtree2d87bed53324a0c13a704c52e73eb35dec2359ebtargetblank2d87beda"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -574,7 +576,8 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 21c4ed5.
+The results in this page were generated with repository version
+<a href="https://heinin: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@github.com/heinin/GBM_Xenium/tree/2d87bed53324a0c13a704c52e73eb35dec2359eb" target="_blank">2d87bed</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -588,11 +591,8 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Untracked files:
-    Untracked:  analysis/panel_feature_sc_expression.Rmd
-    Untracked:  code/colors_themes.R
-    Untracked:  code/plot_functions.R
-    Untracked:  code/utilities.R
+Unstaged changes:
+    Modified:   analysis/panel_feature_sc_expression.Rmd
 
 </code></pre>
 <p>
@@ -607,10 +607,75 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/panel_feature_sc_expression.Rmd</code>) and HTML
+(<code>docs/panel_feature_sc_expression.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://heinin: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@github.com/heinin/GBM_Xenium/blob/2d87bed53324a0c13a704c52e73eb35dec2359eb/analysis/panel_feature_sc_expression.Rmd" target="_blank">2d87bed</a>
+</td>
+<td>
+heinin
+</td>
+<td>
+2024-02-08
+</td>
+<td>
+first commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://heinin: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@github.com/heinin/GBM_Xenium/blob/2d87bed53324a0c13a704c52e73eb35dec2359eb/docs/panel_feature_sc_expression.html" target="_blank">2d87bed</a>
+</td>
+<td>
+heinin
+</td>
+<td>
+2024-02-08
+</td>
+<td>
+first commit
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -704,6 +769,43 @@ DimPlot(seurat_object,
   NoAxes() +
   coord_fixed(1)</code></pre>
 <p><img src="figure/panel_feature_sc_expression.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://heinin: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@github.com/heinin/GBM_Xenium/blob/2d87bed53324a0c13a704c52e73eb35dec2359eb/docs/figure/panel_feature_sc_expression.Rmd/unnamed-chunk-3-1.png" target="_blank">2d87bed</a>
+</td>
+<td>
+heinin
+</td>
+<td>
+2024-02-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Pseudobulk expression (CPM) across cell types
 exp_data &lt;- AggregateExpression(seurat_object,
                                 assay = &quot;RNA&quot;,
@@ -753,6 +855,43 @@ $multitissue_cancer
 <h3>Overlap of panel features</h3>
 <pre class="r"><code>upset(fromList(panel_gene_list), order.by = &quot;freq&quot;)</code></pre>
 <p><img src="figure/panel_feature_sc_expression.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://heinin: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@github.com/heinin/GBM_Xenium/blob/2d87bed53324a0c13a704c52e73eb35dec2359eb/docs/figure/panel_feature_sc_expression.Rmd/unnamed-chunk-4-1.png" target="_blank">2d87bed</a>
+</td>
+<td>
+heinin
+</td>
+<td>
+2024-02-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="panel-feature-expression-across-cell-types"
 class="section level3">
@@ -770,8 +909,11 @@ names(exp_list) &lt;- unique(df$id)
 
 exp_list &lt;- exp_list[order(sapply(exp_list, length))]</code></pre>
 </div>
-<div id="panel-features-expressed-in-scrnaseq" class="section level3">
-<h3>Panel features expressed in scRNAseq</h3>
+<div
+id="panel-features-expressed-in-scrnaseq-with-5-of-cells-expressing-avg.-exp-1"
+class="section level3">
+<h3>Panel features expressed in scRNAseq with &gt;5% of cells
+expressing, avg. exp &gt;1</h3>
 <pre class="r"><code>bar_cols &lt;- c(rep(&quot;deeppink3&quot;, length(panel_gene_list)),
               rep(&quot;aquamarine3&quot;, length(exp_list)))
 names(bar_cols) &lt;- c(names(panel_gene_list), names(exp_list))
@@ -784,6 +926,69 @@ upset(fromList(c(panel_gene_list, exp_list)),
       sets.bar.color = bar_cols,
       mb.ratio = c(0.4, 0.6))</code></pre>
 <p><img src="figure/panel_feature_sc_expression.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://heinin: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@github.com/heinin/GBM_Xenium/blob/2d87bed53324a0c13a704c52e73eb35dec2359eb/docs/figure/panel_feature_sc_expression.Rmd/unnamed-chunk-6-1.png" target="_blank">2d87bed</a>
+</td>
+<td>
+heinin
+</td>
+<td>
+2024-02-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="same-with-1-expressing-avg.-exp-1" class="section level3">
+<h3>Same with &gt;1% expressing, avg. exp &gt;1</h3>
+<pre class="r"><code>exp_list &lt;- lapply(unique(df$id), function(xx){
+  
+  df %&gt;% filter(id == xx,
+                pct.exp &gt; 0.01,
+                avg.exp &gt; 1) %&gt;%
+    dplyr::select(features.plot) %&gt;%
+    unlist() %&gt;% as.character()
+})
+names(exp_list) &lt;- unique(df$id)
+
+exp_list &lt;- exp_list[order(sapply(exp_list, length))]</code></pre>
+<pre class="r"><code>bar_cols &lt;- c(rep(&quot;deeppink3&quot;, length(panel_gene_list)),
+              rep(&quot;aquamarine3&quot;, length(exp_list)))
+names(bar_cols) &lt;- c(names(panel_gene_list), names(exp_list))
+
+upset(fromList(c(panel_gene_list, exp_list)),
+      keep.order = TRUE,
+      sets = c(names(panel_gene_list), names(exp_list)),
+      order.by = &quot;freq&quot;,
+      nsets = length(c(panel_gene_list, exp_list)),
+      sets.bar.color = bar_cols,
+      mb.ratio = c(0.4, 0.6))</code></pre>
+<p><img src="figure/panel_feature_sc_expression.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
