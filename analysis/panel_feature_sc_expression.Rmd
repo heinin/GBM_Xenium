@@ -226,6 +226,9 @@ setdiff(panel_gene_list[["gbm"]], unlist(exp_list))
 
 #gbm %>% filter(Name %in% setdiff(panel_gene_list[["gbm"]], unlist(exp_list)))
 
+# Total # of panel features expressed in scRNAseq
+length(intersect(panel_gene_list[["gbm"]], unique(unlist(exp_list))))
+
 # % out of the whole panel expressed in scRNAseq
 length(intersect(panel_gene_list[["gbm"]], unique(unlist(exp_list))))/length(panel_gene_list[["gbm"]])*100
 
@@ -242,6 +245,9 @@ setdiff(panel_gene_list[["multitissue_cancer"]], unlist(exp_list))
 
 # Annotations for genes not expressed in scRNAseq
 multitissue_cancer %>% filter(!Gene %in% unlist(exp_list))
+
+# Total # of panel features expressed in scRNAseq
+length(intersect(panel_gene_list[["multitissue_cancer"]], unique(unlist(exp_list))))
   
 # % out of the whole panel expressed in scRNAseq
 length(intersect(panel_gene_list[["multitissue_cancer"]], unique(unlist(exp_list))))/length(panel_gene_list[["multitissue_cancer"]])*100
@@ -263,6 +269,10 @@ brain %>% filter(!Gene %in% unlist(exp_list)) %>%
   table() %>%
   sort() %>%
   as.data.frame()
+
+
+# Total # of panel features expressed in scRNAseq
+length(intersect(panel_gene_list[["brain"]], unique(unlist(exp_list))))
 
 # % out of the whole panel expressed in scRNAseq
 length(intersect(panel_gene_list[["brain"]], unique(unlist(exp_list))))/length(panel_gene_list[["brain"]])*100
